@@ -11,10 +11,7 @@ const getters = {
   roles: state => state.user.roles,
   permission_routes: state => state.permission.routes,
   errorLogs: state => state.errorLog.logs,
-  status: state => state.user.status,
-  propsList: state => state.settings.propsList,
-  platForm: state => state.settings.platForm,
-  channlList: state => state.settings.channlList,
-  language: state => state.language.language
+  language: state => state.language.language,
+  gameList: state => state.settings.gameList
 }
 export default getters

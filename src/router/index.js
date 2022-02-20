@@ -7,13 +7,15 @@ Vue.use(Router)
 import Layout from '@/layout'
 
 /* Router Modules */
+import BusinessRouter from './model/business'
+import NoticeRouter from './model/notice'
 
 export const constantRoutes = [
   {
     path: '/login',
     component: () => import('@/views/login/index'),
     hidden: true
-  },  
+  },
   {
     path: '/',
     component: Layout,
@@ -23,13 +25,15 @@ export const constantRoutes = [
         path: 'homepage',
         component: () => import('@/views/homepage'),
         name: 'homepage',
-        meta: { title: 'homepage', icon: 'dashboard', affix: true }
+        meta: { title: '轮播图管理', icon: 'dashboard', affix: true }
       }
     ]
-  }
+  },
+  BusinessRouter,
+  NoticeRouter
 ]
 
-export const asyncRoutes = [  
+export const asyncRoutes = [
   { path: '*', redirect: '/404', hidden: true }
 ]
 

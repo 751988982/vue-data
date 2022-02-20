@@ -1,10 +1,10 @@
 <template>
   <div class="drawer-container">
     <div>
-      <h3 class="drawer-title">{{$t('style.page_style')}}</h3>
+      <h3 class="drawer-title">页面样式设置</h3>
 
       <div class="drawer-item">
-        <span>{{$t('style.theme_color')}}</span>
+        <span>主题色</span>
         <theme-picker
           style="float: right;height: 26px;margin: -3px 8px 0 0;"
           @change="themeChange"
@@ -12,17 +12,17 @@
       </div>
 
       <div class="drawer-item">
-        <span>{{$t('style.open_label')}}</span>
+        <span>打开标签</span>
         <el-switch v-model="tagsView" class="drawer-switch" />
       </div>
 
       <div class="drawer-item">
-        <span>{{$t('style.fixed_head')}}</span>
+        <span>固定头</span>
         <el-switch v-model="fixedHeader" class="drawer-switch" />
       </div>
 
       <!-- <div class="drawer-item">
-        <span>{{$t('style.icon_view')}}</span>
+        <span>图标显示</span>
         <el-switch v-model="sidebarLogo" class="drawer-switch" />
       </div> -->
     </div>
@@ -30,57 +30,57 @@
 </template>
 
 <script>
-import ThemePicker from "@/components/ThemePicker";
+import ThemePicker from '@/components/ThemePicker'
 
 export default {
   components: { ThemePicker },
   data() {
-    return {};
+    return {}
   },
   computed: {
     fixedHeader: {
       get() {
-        return this.$store.state.settings.fixedHeader;
+        return this.$store.state.settings.fixedHeader
       },
       set(val) {
-        this.$store.dispatch("settings/changeSetting", {
-          key: "fixedHeader",
-          value: val,
-        });
-      },
+        this.$store.dispatch('settings/changeSetting', {
+          key: 'fixedHeader',
+          value: val
+        })
+      }
     },
     tagsView: {
       get() {
-        return this.$store.state.settings.tagsView;
+        return this.$store.state.settings.tagsView
       },
       set(val) {
-        this.$store.dispatch("settings/changeSetting", {
-          key: "tagsView",
-          value: val,
-        });
-      },
+        this.$store.dispatch('settings/changeSetting', {
+          key: 'tagsView',
+          value: val
+        })
+      }
     },
     sidebarLogo: {
       get() {
-        return this.$store.state.settings.sidebarLogo;
+        return this.$store.state.settings.sidebarLogo
       },
       set(val) {
-        this.$store.dispatch("settings/changeSetting", {
-          key: "sidebarLogo",
-          value: val,
-        });
-      },
-    },
+        this.$store.dispatch('settings/changeSetting', {
+          key: 'sidebarLogo',
+          value: val
+        })
+      }
+    }
   },
   methods: {
     themeChange(val) {
-      this.$store.dispatch("settings/changeSetting", {
-        key: "theme",
-        value: val,
-      });
-    },
-  },
-};
+      this.$store.dispatch('settings/changeSetting', {
+        key: 'theme',
+        value: val
+      })
+    }
+  }
+}
 </script>
 
 <style lang="scss" scoped>

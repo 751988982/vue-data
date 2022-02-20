@@ -11,7 +11,7 @@
 
     <div class="right-menu">
       <template v-if="device!=='mobile'">
-        <lang-select class="right-menu-item lang-select"></lang-select>
+        <!-- <lang-select class="right-menu-item lang-select"></lang-select> -->
         <search id="header-search" class="right-menu-item" />
 
         <error-log class="errLog-container right-menu-item hover-effect" />
@@ -21,15 +21,15 @@
 
       <el-dropdown class="avatar-container right-menu-item hover-effect" trigger="click">
         <div class="avatar-wrapper">
-          <img src="@/assets/image/avatar/avatar.gif" class="user-avatar" />
+          <img src="@/assets/image/avatar/avatar.gif" class="user-avatar">
           <i class="el-icon-caret-bottom" />
         </div>
         <el-dropdown-menu slot="dropdown">
           <router-link to="/">
-            <el-dropdown-item>{{$t('title.homepage')}}</el-dropdown-item>
+            <el-dropdown-item>首页</el-dropdown-item>
           </router-link>
           <el-dropdown-item divided @click.native="logout">
-            <span style="display:block;">{{$t('buttonInfo.quit')}}</span>
+            <span style="display:block;">退出</span>
           </el-dropdown-item>
         </el-dropdown-menu>
       </el-dropdown>
@@ -38,13 +38,13 @@
 </template>
 
 <script>
-import { mapGetters } from "vuex";
+import { mapGetters } from 'vuex'
 import LangSelect from '@/components/lang-select'
-import Breadcrumb from "@/components/Breadcrumb";
-import Hamburger from "@/components/Hamburger";
-import ErrorLog from "@/components/ErrorLog";
-import Screenfull from "@/components/Screenfull";
-import Search from "@/components/HeaderSearch";
+import Breadcrumb from '@/components/Breadcrumb'
+import Hamburger from '@/components/Hamburger'
+import ErrorLog from '@/components/ErrorLog'
+import Screenfull from '@/components/Screenfull'
+import Search from '@/components/HeaderSearch'
 
 export default {
   components: {
@@ -53,21 +53,21 @@ export default {
     ErrorLog,
     Screenfull,
     Search,
-    LangSelect,
+    LangSelect
   },
   computed: {
-    ...mapGetters(["sidebar", "avatar", "device"]),
+    ...mapGetters(['sidebar', 'avatar', 'device'])
   },
   methods: {
     toggleSideBar() {
-      this.$store.dispatch("app/toggleSideBar");
+      this.$store.dispatch('app/toggleSideBar')
     },
     async logout() {
-      await this.$store.dispatch("user/logout");
-      this.$router.push(`/login?redirect=${this.$route.fullPath}`);
-    },
-  },
-};
+      await this.$store.dispatch('user/logout')
+      this.$router.push(`/login?redirect=${this.$route.fullPath}`)
+    }
+  }
+}
 </script>
 
 <style lang="scss" scoped>

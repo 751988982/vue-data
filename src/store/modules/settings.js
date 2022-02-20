@@ -1,5 +1,6 @@
 import variables from '@/styles/element-variables.scss'
 import defaultSettings from '@/settings'
+import { getGameList } from '@/api/game'
 
 const { showSettings, tagsView, fixedHeader, sidebarLogo } = defaultSettings
 
@@ -8,7 +9,8 @@ const state = {
   showSettings: showSettings,
   tagsView: tagsView,
   fixedHeader: fixedHeader,
-  sidebarLogo: sidebarLogo,  
+  sidebarLogo: sidebarLogo,
+  gameList: []
 }
 
 const mutations = {
@@ -17,12 +19,20 @@ const mutations = {
     if (state.hasOwnProperty(key)) {
       state[key] = value
     }
+  },
+  SET_GAME: (state, gameList) => {
+    state.gameList = gameList
   }
 }
 
 const actions = {
   changeSetting({ commit }, data) {
     commit('CHANGE_SETTING', data)
+  },
+  async getUtils({ commit }) {
+    const propsList = await getGameList()
+    console.log('服务器列表', propsList)
+    commit('SET_GAME', propsList.data.list)
   }
 }
 
