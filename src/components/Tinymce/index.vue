@@ -60,9 +60,7 @@ export default {
       fullscreen: false,
       languageTypeList: {
         'en': 'en',
-        'zh': 'zh_CN',
-        'es': 'es_MX',
-        'ja': 'ja'
+        'zh': 'zh_CN',        
       }
     }
   },
@@ -79,7 +77,7 @@ export default {
     value(val) {
       if (!this.hasChange && this.hasInit) {
         this.$nextTick(() =>
-          window.tinymce.get(this.tinymceId).setContent(val || ''))
+          window.tinymce.get(this.tinymceId).setContent(val || ''))          
       }
     }
   },

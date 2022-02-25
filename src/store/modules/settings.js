@@ -30,8 +30,7 @@ const actions = {
     commit('CHANGE_SETTING', data)
   },
   async getUtils({ commit }) {
-    const propsList = await getGameList()
-    console.log('服务器列表', propsList)
+    const propsList = await getGameList()    
     commit('SET_GAME', propsList.data.list)
   }
 }

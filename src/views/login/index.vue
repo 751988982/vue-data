@@ -17,7 +17,7 @@
           <el-input
             v-model="loginForm.user_name"
             type="text"
-            placeholder="请输入手机号"
+            placeholder="请输入账号"
             @keyup.enter.native="goToPwdInput"
           />
           <span class="svg-container svg-container_user">
@@ -37,7 +37,7 @@
             <svg-icon icon-class="password" />
           </span>
         </el-form-item>
-        <el-row>
+        <!-- <el-row>
           <el-link
             style="margin: 0 8px"
             @click="setstatus(1)"
@@ -51,10 +51,10 @@
           fill="#ffffff"
           label="1"
           style="padding: 10px"
-        >已阅读并同意<el-link type="primary">《知识付费服务协议》</el-link>和<el-link type="primary">《隐私协议》</el-link></el-radio>
+        >已阅读并同意<el-link type="primary">《知识付费服务协议》</el-link>和<el-link type="primary">《隐私协议》</el-link></el-radio> -->
         <el-button type="primary" @click="onLogin('loginForm')">登录</el-button>
       </el-form>
-      <el-form
+      <!-- <el-form
         v-if="status == 1"
         ref="loginForm"
         :rules="rules"
@@ -201,20 +201,19 @@
           </el-link>
         </el-row>
         <el-button type="primary" @click="zhuce()">注册</el-button>
-      </el-form>
+      </el-form> -->
     </el-card>
   </el-container>
 </template>
 <script>
-import { validPhone } from '@/utils/validate'
-import { verif, register, updatePassword } from '@/api/user'
+import { isString } from '@/utils/validate'
 
 export default {
   data() {
     // user_name 验证
     const validateUsername = (rule, value, callback) => {
-      if (!validPhone(value)) {
-        callback(new Error('请输入正确的手机号'))
+      if (!isString(value)) {
+        callback(new Error('请输入正确的账号'))
       } else {
         callback()
       }
@@ -270,7 +269,7 @@ export default {
   methods: {
     // 登录操作
     onLogin() {
-      if (!this.radio) return this.$message.error('请阅读并同意《知识付费服务协议》和《隐私协议》')
+      // if (!this.radio) return this.$message.error('请阅读并同意《知识付费服务协议》和《隐私协议》')
       this.$refs.loginForm.validate((valid) => {
         if (valid) {
           this.loading = true
@@ -294,76 +293,76 @@ export default {
         }
       })
     },
-    // 发送验证码
-    verification() {
-      const { user_name } = this.loginForm
+    // // 发送验证码
+    // verification() {
+    //   const { user_name } = this.loginForm
 
-      if (!user_name) {
-        this.$message.warning('请输入手机号')
-        return
-      }
-      const params = {
-        user_name
-      }
-      this.listLoading = true
-      verif(params).then((res) => {
-        this.listLoading = false
-        this.$message.success(res.msg)
-      })
-    },
-    // 修改密码
-    upPassword() {
-      const { user_name, verification, password1, password2 } = this.updateForm
+    //   if (!user_name) {
+    //     this.$message.warning('请输入手机号')
+    //     return
+    //   }
+    //   const params = {
+    //     user_name
+    //   }
+    //   this.listLoading = true
+    //   verif(params).then((res) => {
+    //     this.listLoading = false
+    //     this.$message.success(res.msg)
+    //   })
+    // },
+    // // 修改密码
+    // upPassword() {
+    //   const { user_name, verification, password1, password2 } = this.updateForm
 
-      if (password1 != password2) {
-        this.$message.warning('请输入正确的密码')
-        return
-      }
-      const params = {
-        user_name,
-        verification,
-        password: password1
-      }
-      this.listLoading = true
-      updatePassword(params).then((res) => {
-        this.listLoading = false
-        this.$message.success(res.msg)
-        if (res.code == 200) this.status = 1
-      })
-    },
-    // 注册
-    zhuce() {
-      const { user_name, verification, password1, password2 } = this.updateForm
-      if (password1 != password2) {
-        this.$message.warning('请输入正确的密码')
-        return
-      }
-      const params = {
-        user_name,
-        verification,
-        password: password1
-      }
-      this.listLoading = true
-      register(params).then((res) => {
-        this.listLoading = false
-        this.$message.success(res.msg)
-        if (res.code == 200) this.status = 1
-      })
-    },
-    setstatus(val) {
-      this.status = val
-      this.loginForm = {
-        user_name: '',
-        password: '',
-        verification: ''
-      }
-      this.updateForm = {
-        user_name: '',
-        password1: '',
-        password2: '',
-        verification: ''
-      }
-    }
+    //   if (password1 != password2) {
+    //     this.$message.warning('请输入正确的密码')
+    //     return
+    //   }
+    //   const params = {
+    //     user_name,
+    //     verification,
+    //     password: password1
+    //   }
+    //   this.listLoading = true
+    //   updatePassword(params).then((res) => {
+    //     this.listLoading = false
+    //     this.$message.success(res.msg)
+    //     if (res.code == 200) this.status = 1
+    //   })
+    // },
+    // // 注册
+    // zhuce() {
+    //   const { user_name, verification, password1, password2 } = this.updateForm
+    //   if (password1 != password2) {
+    //     this.$message.warning('请输入正确的密码')
+    //     return
+    //   }
+    //   const params = {
+    //     user_name,
+    //     verification,
+    //     password: password1
+    //   }
+    //   this.listLoading = true
+    //   register(params).then((res) => {
+    //     this.listLoading = false
+    //     this.$message.success(res.msg)
+    //     if (res.code == 200) this.status = 1
+    //   })
+    // },
+    // setstatus(val) {
+    //   this.status = val
+    //   this.loginForm = {
+    //     user_name: '',
+    //     password: '',
+    //     verification: ''
+    //   }
+    //   this.updateForm = {
+    //     user_name: '',
+    //     password1: '',
+    //     password2: '',
+    //     verification: ''
+    //   }
+    // }
   }
 }
 </script>
@@ -386,7 +385,7 @@ export default {
   left: 50%;
   margin: -300px 0 0 -200px;
   width: 400px;
-  height: 550px;
+  height: 400px;
   background: #fff;
 }
 .el-card-header {

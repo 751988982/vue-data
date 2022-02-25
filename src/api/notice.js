@@ -3,7 +3,7 @@ const baseUrl = '/api'
 
 // 查公告
 export const getNoticeList = (userInfo) => {
-  return http.fetchGet(`${baseUrl}/notice/getNoticeList`, userInfo)
+  return http.fetchPost(`${baseUrl}/notice/getNoticeList`, userInfo)
 }
 
 // 新增
@@ -23,7 +23,7 @@ export const delNotice = (userInfo) => {
 
 // 查研报
 export const getStudyList = (userInfo) => {
-  return http.fetchGet(`${baseUrl}/notice/getStudyList`, userInfo)
+  return http.fetchPost(`${baseUrl}/notice/getStudyList`, userInfo)
 }
 
 // 新增

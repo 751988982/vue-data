@@ -212,7 +212,8 @@ export default {
     },
     handleAvatarSuccess(res, file) {
       if (res.code == 200) {
-        this.Info.imageUrl = res.data
+        if(this.pitch_info.id) this.pitch_info.img = res.data
+        else this.Info.imageUrl = res.data
       } else {
         this.$message.error(res.msg)
       }
@@ -248,7 +249,7 @@ export default {
       this.pitch_info = row
     },
     update() {
-      const { id, title, link, img } = this.Info
+      const { id, title, link, img } = this.pitch_info
       if (!id || !title || !link || !img) {
         this.$message.warning('不能为空')
         return

@@ -9,6 +9,7 @@ import Layout from '@/layout'
 /* Router Modules */
 import BusinessRouter from './model/business'
 import NoticeRouter from './model/notice'
+import SystemRouter from './model/system'
 
 export const constantRoutes = [
   {
@@ -30,7 +31,8 @@ export const constantRoutes = [
     ]
   },
   BusinessRouter,
-  NoticeRouter
+  NoticeRouter,
+  SystemRouter
 ]
 
 export const asyncRoutes = [

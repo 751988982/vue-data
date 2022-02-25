@@ -51,16 +51,15 @@ const actions = {
   // get user info
   getInfo({ commit, state }) {
     return new Promise((resolve, reject) => {
-      userInfo(state.token).then(response => {
+      userInfo({user_name: state.token}).then(response => {
         const { data } = response
 
         if (!data) {
           reject('登录超时,重新登录')
         }
 
-        const { name, avatar } = data;        
-        commit('SET_NAME', name)
-        commit('SET_AVATAR', avatar)
+        const { name } = data;        
+        commit('SET_NAME', name)        
         commit('SET_ROLES', ['admin']);
         // commit('SET_INTRODUCTION', introduction)        
         resolve(data)

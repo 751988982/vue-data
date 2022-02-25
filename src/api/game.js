@@ -3,12 +3,12 @@ const baseUrl = '/api'
 
 // 查模块
 export const getGameList = (userInfo) => {
-  return http.fetchGet(`${baseUrl}/game/getGameList`, userInfo)
+  return http.fetchPost(`${baseUrl}/game/getGameList`, userInfo)
 }
 
 // 查分类
 export const getGameTypeList = (userInfo) => {
-  return http.fetchGet(`${baseUrl}/game/getGameTypeList`, userInfo)
+  return http.fetchPost(`${baseUrl}/game/getGameTypeList`, userInfo)
 }
 
 // 添加模块
@@ -43,7 +43,7 @@ export const delGameType = (userInfo) => {
 
 // 获取历史票列表
 export const getBillTypeList = (userInfo) => {
-  return http.fetchGet(`${baseUrl}/game/getBillTypeList`, userInfo)
+  return http.fetchPost(`${baseUrl}/game/getBillTypeList`, userInfo)
 }
 
 // 添加历史票
@@ -63,7 +63,7 @@ export const delBillType = (userInfo) => {
 
 // 获取文案列表
 export const getBillList = (userInfo) => {
-  return http.fetchGet(`${baseUrl}/game/getBillList`, userInfo)
+  return http.fetchPost(`${baseUrl}/game/getBillList`, userInfo)
 }
 
 // 添加文案
@@ -83,7 +83,7 @@ export const delBillInfo = (userInfo) => {
 
 // 获取vip列表
 export const getVipTypeList = (userInfo) => {
-  return http.fetchGet(`${baseUrl}/game/getVipTypeList`, userInfo)
+  return http.fetchPost(`${baseUrl}/game/getVipTypeList`, userInfo)
 }
 
 // 添加vip
@@ -94,9 +94,4 @@ export const insertVipInfo = (userInfo) => {
 // 修改vip
 export const upVipType = (userInfo) => {
   return http.fetchPost(`${baseUrl}/game/upVipType`, userInfo)
-}
-
-// 删除vip
-export const delVipType = (userInfo) => {
-  return http.fetchPost(`${baseUrl}/game/delVipType`, userInfo)
 }

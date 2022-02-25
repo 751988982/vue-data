@@ -16,12 +16,12 @@
         <el-form-item>
           <el-button type="primary" @click="getList">查询</el-button>
         </el-form-item>
-        <el-form-item style="float: right; width: 140px">
+        <!-- <el-form-item style="float: right; width: 140px">
           <el-button
             type="success"
             @click="addFormVisible = true"
           >新增</el-button>
-        </el-form-item>
+        </el-form-item> -->
       </el-form>
     </el-col>
     <!-- 表格 -->
@@ -36,7 +36,7 @@
     >
       <el-table-column type="index" width="80" />
       <el-table-column
-        prop="account"
+        prop="user_name"
         label="用户账号"
         width="200"
         sortable
@@ -72,16 +72,16 @@
             size="small"
             @click="openChangeChannl(scope.row)"
           >编辑</el-button>
-          <el-button
+          <!-- <el-button
             type="danger"
             size="small"
             @click="removeChannl(scope.row)"
-          >删除</el-button>
+          >删除</el-button> -->
         </template>
       </el-table-column>
     </el-table>
     <!--新增界面-->
-    <el-dialog
+    <!-- <el-dialog
       title="新增"
       :visible.sync="addFormVisible"
       :close-on-click-modal="false"
@@ -89,7 +89,7 @@
     >
       <el-form ref="channlInfo" :model="channlInfo" label-width="100px">
         <el-form-item label="用户账号">
-          <el-input v-model="channlInfo.account" clearable />
+          <el-input v-model="channlInfo.user_name" clearable />
         </el-form-item>
         <el-form-item label="用户名称">
           <el-input v-model="channlInfo.name" clearable />
@@ -109,7 +109,7 @@
           <el-button @click="addFormVisible = false"> 关闭 </el-button>
         </el-form-item>
       </el-form>
-    </el-dialog>
+    </el-dialog> -->
     <!--修改界面-->
     <el-dialog
       title="修改"
@@ -119,13 +119,13 @@
     >
       <el-form ref="pitch_info" :model="pitch_info" label-width="100px">
         <el-form-item label="用户账号">
-          <el-input v-model="pitch_info.account" />
+          <el-input v-model="pitch_info.user_name" />
         </el-form-item>
         <el-form-item label="用户名称">
-          <el-input v-model="pitch_info.name" clearable />
+          <el-input v-model="pitch_info.name" clearable :disabled="true"/>
         </el-form-item>
         <el-form-item label="vip类型">
-          <el-select v-model="channlInfo.type" clearable>
+          <el-select v-model="pitch_info.type" clearable>
             <el-option
               v-for="item in gameList"
               :key="item.type"
@@ -148,8 +148,7 @@ import {
   getGameTypeList,
   getVipTypeList,
   insertVipInfo,
-  upVipType,
-  delVipType
+  upVipType  
 } from '@/api/game'
 
 export default {
@@ -161,7 +160,7 @@ export default {
       gameList: [],
       listLoading: false,
       channlInfo: {
-        account: '',
+        user_name: '',
         type: '',
         name: ''
       },
@@ -177,11 +176,11 @@ export default {
   methods: {
     formName: function(row, column) {
       const list = this.gameList
-      const data = list.find((data) => {
+      const data = list.filter((data) => {
         return data.type == row.type
       })
-      if (data) return data.name
-      else return ''
+      if (data.length > 0) return data[0].name;
+      else return '';
     },
     formTime: function(row, column) {
       return new Date(row.time).toLocaleDateString()
@@ -190,7 +189,7 @@ export default {
       if (this.gameList.length == 0) {
         const data = await getGameTypeList({ guishu: 2 })
         if (data.code == 200) this.gameList = data.data.list
-        console.log(this.gameList)
+        
       }
       const parms = {}
       if (this.game) parms.type = this.game
@@ -207,7 +206,7 @@ export default {
     },
     openChangeChannl: function(row) {
       this.pitch_info = row
-      if (!row.account) {
+      if (!row.user_name) {
         this.$message.warning('请选中一行数据')
         return
       }
@@ -215,7 +214,7 @@ export default {
       this.changeFormVisible = true
     },
     checkChannl() {
-      if (!this.pitch_info.account) {
+      if (!this.pitch_info.user_name) {
         this.$message.warning('请重新填写')
         return
       }
@@ -229,20 +228,20 @@ export default {
         }
       })
     },
-    removeChannl(row) {
-      if (!row.account) {
-        this.$message.warning('请选中一行数据')
-        return
-      }
-      delVipType({ account: row.account }).then((res) => {
-        if (res.code == 200) {
-          this.$message.success(res.msg)
-          this.getList()
-        } else {
-          this.$message.error(res.msg)
-        }
-      })
-    },
+    // removeChannl(row) {
+    //   if (!row.user_name) {
+    //     this.$message.warning('请选中一行数据')
+    //     return
+    //   }
+    //   delVipType({ user_name: row.user_name }).then((res) => {
+    //     if (res.code == 200) {
+    //       this.$message.success(res.msg)
+    //       this.getList()
+    //     } else {
+    //       this.$message.error(res.msg)
+    //     }
+    //   })
+    // },
     addChannlAsync() {
       insertVipInfo(this.channlInfo).then((res) => {
         if (res.code == 200) {

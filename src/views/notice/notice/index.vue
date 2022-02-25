@@ -135,7 +135,7 @@ export default {
     },
     openChangeChannl: function(row) {
       this.pitch_info = row
-      if (!row.name) {
+      if (!row.id) {
         this.$message.warning('请选中一行数据')
         return
       }

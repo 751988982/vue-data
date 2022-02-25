@@ -39,7 +39,7 @@ module.exports = {
     proxy: {     
       [process.env.VUE_APP_BASE_API]: {
         // 测试服
-        target: `http://127.0.0.1:3000`,   
+        target: `http://124.223.46.45:3000`,   
         changeOrigin: true,
         pathRewrite: {
           ['^' + process.env.VUE_APP_BASE_API]: '/api'
@@ -47,7 +47,7 @@ module.exports = {
       },
       [process.env.VUE_UPLOAD_API]: {
         // 测试服
-        target: `http://127.0.0.1:3000`,        
+        target: `http://124.223.46.45:3000`,
         changeOrigin: true,
         pathRewrite: {
           ['^' + process.env.VUE_UPLOAD_API]: '/upload'

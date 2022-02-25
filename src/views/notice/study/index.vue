@@ -147,13 +147,13 @@ export default {
     openAddChannl: function() {
       this.addLoading = false
       this.addFormVisible = true
-    },
+    },    
     openChangeChannl: function(row) {
       this.pitch_info = row
       if (!row.id) {
         this.$message.warning('请选中一行数据')
         return
-      }
+      }      
       this.addLoading = false
       this.changeFormVisible = true
     },
@@ -161,7 +161,7 @@ export default {
       if (!this.pitch_info.id) {
         this.$message.warning('请选中一行数据')
         return
-      }
+      }      
       upSyudy(this.pitch_info).then(res => {
         if (res.code == 200) {
           this.$message.success(res.msg)

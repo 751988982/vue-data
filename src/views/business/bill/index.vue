@@ -116,12 +116,12 @@
           <el-input v-model="channlInfo.id" clearable />
         </el-form-item>
         <el-form-item label="类型">
-          <el-select v-model="channlInfo.status" clearable>
+          <el-select v-model="channlInfo.status" multiple clearable>
             <el-option
               v-for="item in payType"
-              :key="item.value"
-              :label="item.label"
-              :value="item.value"
+              :key="item.type"
+              :label="item.name"
+              :value="item.type"
             />
           </el-select>
         </el-form-item>
@@ -153,12 +153,12 @@
           <el-input v-model="pitch_info.id" clearable />
         </el-form-item>
         <el-form-item label="类型">
-          <el-select v-model="pitch_info.status">
+          <el-select v-model="pitch_info.status" multiple>
             <el-option
               v-for="item in payType"
-              :key="item.value"
-              :label="item.label"
-              :value="item.value"
+              :key="item.type"
+              :label="item.name"
+              :value="item.type"
             />
           </el-select>
         </el-form-item>
@@ -315,6 +315,8 @@ import {
 } from '@/api/game'
 
 import Tinymce from '@/components/Tinymce'
+import _ from 'lodash';
+import { status } from 'nprogress';
 
 export default {
   components: { Tinymce },
@@ -334,7 +336,7 @@ export default {
       payListLoading: false,
       channlInfo: {
         id: '',
-        status: '',
+        status: [],
         game_type: ''
       },
       billInfo: {
@@ -350,23 +352,32 @@ export default {
       // 选中的数据
       pitch_info: {},
       bill_info: {},
-      payType: [
-        { value: 0, label: '付费' },
-        { value: 1, label: '免费' }
-      ]
+      payType: []
     }
   },
   mounted() {
-    this.getList()
-    console.log('加载', this.gameList)
+    this.getList()    
   },
   methods: {
-    formStatus: function(row, column) {
-      const data = this.payType.find((data) => {
-        return (data.value = row.status)
-      })
-      if (data) return data.label
-      else return ''
+    formStatus: function(row, column) {      
+      let list = [];
+      if(Array.isArray(row.status)){
+        list = row.status;
+      } else {          
+        if(row.status)list = row.status = _.map(_.split(row.status, ';'), s => parseInt(s));
+      }
+      let name = '';
+      for(let info of list){
+        const data = this.payType.filter((data) => {
+          return data.type == info;
+        })
+        if (data.length > 0) {
+          if(name) name += (',' + data[0].name);
+          else name = data[0].name;
+        }        
+      };
+      if(!name) name = '免费';
+      return name;
     },
     formTime: function(row, column) {
       return new Date(row.time).toLocaleDateString()
@@ -374,7 +385,9 @@ export default {
     async getList() {
       if (this.gameList.length == 0) {
         const data = await getGameTypeList({ guishu: 1 })
-        if (data.code == 200) this.gameList = data.data.list
+        if (data.code == 200) this.gameList = data.data.list;
+        const vip = await getGameTypeList({ guishu: 2 })
+        if (vip.code == 200) this.payType = vip.data.list;
         this.game_type = this.gameList[0].type || 0
       }
       const game_type = this.game_type || this.gameList[0].type || 0
@@ -406,7 +419,10 @@ export default {
         this.pageSize * this.pageNo
       )
     },
-    openChangeChannl: function(row) {
+    openChangeChannl: function(row) {      
+       if(!Array.isArray(row.status) && row.status){               
+        row.status = _.map(_.split(row.status, ';'), s => parseInt(s));
+      }
       this.pitch_info = row
       if (!row.id) {
         this.$message.warning('请选中一行数据')
@@ -445,7 +461,12 @@ export default {
       })
     },
     addChannlAsync() {
-      insertBillType(this.channlInfo).then((res) => {
+      let { id, status, game_type } = this.channlInfo;
+      if(!id || !game_type) {
+        this.$message.warning('不能为空');
+        return
+      }      
+      insertBillType({id, status, game_type}).then((res) => {
         if (res.code == 200) {
           this.$message.success(res.msg)
           this.getList()
